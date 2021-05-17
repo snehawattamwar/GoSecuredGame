@@ -1,0 +1,34 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }}</title>
+        {% else %}
+        <title>Welcome!</title>
+        {% endif %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/indexpage.css') }}">
+    </head>
+    <body>
+      <div>
+          Game:
+          <a href="{{ url_for('index') }}">Home</a>
+          {% if current_user.is_anonymous %}
+          <a href="{{ url_for('login') }}">Login</a>
+          {% else %}
+          <a href="{{ url_for('logout') }}">Logout</a>
+          {% endif %}
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul>
+            {% for category, message in messages %}
+            <div class="{{ category }}">
+              <li>{{ message }}</li>
+            </div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html>
